@@ -1,0 +1,38 @@
+Running your collection...
+postman
+
+Orders API
+
+Root GET /health
+
+  GET http://localhost:3100/health [200 OK, 249 B, 5 ms]
+  Pass  GET /health returns 200
+
+Root GET /orders/{id}
+
+  GET http://localhost:3100/orders/ord_1042 [200 OK, 289 B, 1 ms]
+  Pass  GET /orders/{id} returns 200 for an existing order
+  Pass  GET /orders/{id} returns the order id as 'orderId'
+  Pass  GET /orders/{id} response matches the Order schema in openapi.yaml
+  Pass  GET /orders/{id} responds in under 1000 ms
+
+------------------------------------------------------------------
+|                         |          executed |           failed |
+--------------------------+-------------------+-------------------
+|              iterations |                 1 |                0 |
+--------------------------+-------------------+-------------------
+|                requests |                 2 |                0 |
+--------------------------+-------------------+-------------------
+|            test-scripts |                 2 |                0 |
+--------------------------+-------------------+-------------------
+|      prerequest-scripts |                 0 |                0 |
+--------------------------+-------------------+-------------------
+|              assertions |                 5 |                0 |
+------------------------------------------------------------------
+| total run duration: 130 ms                                     |
+------------------------------------------------------------------
+| total data received: 69 B (approx)                             |
+------------------------------------------------------------------
+| average response time: 3 ms [min: 1 ms, max: 5 ms, s.d.: 2 ms] |
+------------------------------------------------------------------
+exit code: 0
