@@ -1,0 +1,3 @@
+$kind: collection
+name: Orders API
+description: Contract tests for the orders API, derived from openapi.yaml.

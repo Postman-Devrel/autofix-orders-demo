@@ -1,0 +1,12 @@
+$kind: http-request
+name: GET /health
+method: GET
+url: '{{baseUrl}}/health'
+order: 1000
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("GET /health returns 200", () => {
+        pm.expect(pm.response.code, "GET /health should return 200 when the service is up.").to.equal(200);
+      });

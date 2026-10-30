@@ -1,0 +1,3 @@
+# .github/CODEOWNERS
+/postman/collections/   @your-org/api-quality
+/openapi.yaml           @your-org/api-quality

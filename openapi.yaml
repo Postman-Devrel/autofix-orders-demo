@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: Orders API
+  version: 1.0.0
+  description: Tiny orders API used to demo Claude Code auto-fix with Postman CLI runs in CI.
+servers:
+  - url: http://localhost:3000
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      summary: Health check
+      responses:
+        "200":
+          description: Service is up
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status:
+                    type: string
+  /orders/{orderId}:
+    get:
+      operationId: getOrder
+      summary: Get an order by id
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: ord_1042
+      responses:
+        "200":
+          description: The order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "404":
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [error]
+                properties:
+                  error:
+                    type: string
+components:
+  schemas:
+    Order:
+      type: object
+      additionalProperties: false
+      required: [orderId, status, total]
+      properties:
+        orderId:
+          type: string
+        status:
+          type: string
+          enum: [processing, shipped, delivered, cancelled]
+        total:
+          type: number

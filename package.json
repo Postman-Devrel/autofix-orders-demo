@@ -1,0 +1,9 @@
+{
+  "name": "autofix-orders-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tiny orders API used to demo Claude Code auto-fix with Postman CLI runs in CI",
+  "main": "src/server.js",
+  "scripts": { "start": "node src/server.js" },
+  "dependencies": { "express": "^4.21.2" }
+}

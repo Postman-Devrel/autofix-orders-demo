@@ -1,0 +1,43 @@
+$kind: http-request
+name: 'GET /orders/{id}'
+method: GET
+url: '{{baseUrl}}/orders/:orderId'
+order: 2000
+pathVariables:
+  - key: orderId
+    value: ord_1042
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("GET /orders/{id} returns 200 for an existing order", () => {
+        pm.expect(pm.response.code, "GET /orders/{id} should return 200 for 'ord_1042'. The OpenAPI spec defines 200 as the success response.").to.equal(200);
+      });
+
+      pm.test("GET /orders/{id} returns the order id as 'orderId'", () => {
+        const body = pm.response.json();
+        pm.expect(body, "Response is missing 'orderId'. The OpenAPI spec defines it as a required string.").to.have.property("orderId");
+      });
+
+      pm.test("GET /orders/{id} response matches the Order schema in openapi.yaml", () => {
+        const schema = {
+          type: "object",
+          additionalProperties: false,
+          required: ["orderId", "status", "total"],
+          properties: {
+            orderId: { type: "string" },
+            status: { type: "string", enum: ["processing", "shipped", "delivered", "cancelled"] },
+            total: { type: "number" }
+          }
+        };
+        const body = pm.response.json();
+        const Ajv = require("ajv");
+        const validate = new Ajv({ allErrors: true }).compile(schema);
+        const valid = validate(body);
+        const details = valid ? "none" : validate.errors.map((e) => (e.instancePath || "/") + " " + e.message).join("; ");
+        pm.expect(valid, "GET /orders/{id} response does not match the Order schema in openapi.yaml (additionalProperties: false, required: orderId, status, total). Validation errors: " + details).to.be.true;
+      });
+
+      pm.test("GET /orders/{id} responds in under 1000 ms", () => {
+        pm.expect(pm.response.responseTime, "GET /orders/{id} took " + pm.response.responseTime + " ms. The response time budget is 1000 ms.").to.be.below(1000);
+      });
