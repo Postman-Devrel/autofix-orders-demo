@@ -1,0 +1,45 @@
+Running your collection...
+postman
+
+Orders API
+
+Root GET /health
+
+  GET http://localhost:3100/health [200 OK, 249 B, 5 ms]
+  Pass  GET /health returns 200
+
+Root GET /orders/{id}
+
+  GET http://localhost:3100/orders/ord_1042 [200 OK, 315 B, 1 ms]
+  Pass  GET /orders/{id} returns 200 for an existing order
+  Pass  GET /orders/{id} returns the order id as 'orderId'
+  1. GET /orders/{id} response matches the Order schema in openapi.yaml
+  Pass  GET /orders/{id} responds in under 1000 ms
+
+------------------------------------------------------------------
+|                         |          executed |           failed |
+--------------------------+-------------------+-------------------
+|              iterations |                 1 |                0 |
+--------------------------+-------------------+-------------------
+|                requests |                 2 |                0 |
+--------------------------+-------------------+-------------------
+|            test-scripts |                 2 |                0 |
+--------------------------+-------------------+-------------------
+|      prerequest-scripts |                 0 |                0 |
+--------------------------+-------------------+-------------------
+|              assertions |                 5 |                1 |
+------------------------------------------------------------------
+| total run duration: 132 ms                                     |
+------------------------------------------------------------------
+| total data received: 95 B (approx)                             |
+------------------------------------------------------------------
+| average response time: 3 ms [min: 1 ms, max: 5 ms, s.d.: 2 ms] |
+------------------------------------------------------------------
+
+  #  failure         detail                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                     
+ 1.  AssertionError  GET /orders/{id} response matches the Order schema in openapi.yaml                                                                                                                                                                              
+                     GET /orders/{id} response does not match the Order schema in openapi.yaml (additionalProperties: false, required: orderId, status, total). Validation errors: / should NOT have additional properties 'discountCode': expected false to be true 
+                     at assertion:2 in test-script                                                                                                                                                                                                                   
+                     inside "GET /orders/{id}"                                                                                                                                                                                                                       
+exit code: 1
