@@ -16,7 +16,7 @@ app.get("/orders/:orderId", (req, res) => {
   if (!order) {
     return res.status(404).json({ error: "Order not found" });
   }
-  res.json({ order_id: order.orderId, status: order.status, total: order.total });
+  res.json({ orderId: order.orderId, status: order.status, total: order.total });
 });
 
 const port = process.env.PORT || 3000;
