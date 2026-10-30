@@ -7,8 +7,8 @@ const orders = {
   ord_1043: { orderId: "ord_1043", status: "processing", total: 12.5 },
 };
 
-// Load the order store lazily so the service boots faster. The first lookup
-// pays for initialising the store (connection pool warm-up in a real service).
+// The store is initialised once (connection pool warm-up in a real service).
+// It is warmed before the server starts listening so no request pays for it.
 let store = null;
 async function getStore() {
   if (!store) {
@@ -31,4 +31,6 @@ app.get("/orders/:orderId", async (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`orders API listening on ${port}`));
+getStore().then(() => {
+  app.listen(port, () => console.log(`orders API listening on ${port}`));
+});
