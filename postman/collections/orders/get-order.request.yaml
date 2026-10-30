@@ -34,7 +34,7 @@ scripts:
         const Ajv = require("ajv");
         const validate = new Ajv({ allErrors: true }).compile(schema);
         const valid = validate(body);
-        const details = valid ? "none" : validate.errors.map((e) => (e.instancePath || "/") + " " + e.message).join("; ");
+        const details = valid ? "none" : validate.errors.map((e) => (e.instancePath || "/") + " " + e.message + (e.params && e.params.additionalProperty ? " '" + e.params.additionalProperty + "'" : "") + (e.params && e.params.missingProperty ? " '" + e.params.missingProperty + "'" : "")).join("; ");
         pm.expect(valid, "GET /orders/{id} response does not match the Order schema in openapi.yaml (additionalProperties: false, required: orderId, status, total). Validation errors: " + details).to.be.true;
       });
 
