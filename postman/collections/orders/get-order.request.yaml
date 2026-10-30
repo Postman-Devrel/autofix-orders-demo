@@ -38,6 +38,6 @@ scripts:
         pm.expect(valid, "GET /orders/{id} response does not match the Order schema in openapi.yaml (additionalProperties: false, required: orderId, status, total). Validation errors: " + details).to.be.true;
       });
 
-      pm.test("GET /orders/{id} responds in under 1000 ms", () => {
-        pm.expect(pm.response.responseTime, "GET /orders/{id} took " + pm.response.responseTime + " ms. The response time budget is 1000 ms.").to.be.below(1000);
+      pm.test("GET /orders/{id} responds in under 200 ms", () => {
+        pm.expect(pm.response.responseTime, "GET /orders/{id} took " + pm.response.responseTime + " ms. The response time budget is 200 ms.").to.be.below(200);
       });
