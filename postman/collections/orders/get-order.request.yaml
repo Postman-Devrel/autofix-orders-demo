@@ -14,18 +14,18 @@ scripts:
         pm.expect(pm.response.code, "GET /orders/{id} should return 200 for 'ord_1042'. The OpenAPI spec defines 200 as the success response.").to.equal(200);
       });
 
-      pm.test("GET /orders/{id} returns the order id as 'orderId'", () => {
+      pm.test("GET /orders/{id} returns the order id as 'order_id'", () => {
         const body = pm.response.json();
-        pm.expect(body, "Response is missing 'orderId'. The OpenAPI spec defines it as a required string.").to.have.property("orderId");
+        pm.expect(body, "Response is missing 'order_id'.").to.have.property("order_id");
       });
 
       pm.test("GET /orders/{id} response matches the Order schema in openapi.yaml", () => {
         const schema = {
           type: "object",
           additionalProperties: false,
-          required: ["orderId", "status", "total"],
+          required: ["order_id", "status", "total"],
           properties: {
-            orderId: { type: "string" },
+            order_id: { type: "string" },
             status: { type: "string", enum: ["processing", "shipped", "delivered", "cancelled"] },
             total: { type: "number" }
           }
@@ -35,7 +35,7 @@ scripts:
         const validate = new Ajv({ allErrors: true }).compile(schema);
         const valid = validate(body);
         const details = valid ? "none" : validate.errors.map((e) => (e.instancePath || "/") + " " + e.message + (e.params && e.params.additionalProperty ? " '" + e.params.additionalProperty + "'" : "") + (e.params && e.params.missingProperty ? " '" + e.params.missingProperty + "'" : "")).join("; ");
-        pm.expect(valid, "GET /orders/{id} response does not match the Order schema in openapi.yaml (additionalProperties: false, required: orderId, status, total). Validation errors: " + details).to.be.true;
+        pm.expect(valid, "GET /orders/{id} response does not match the Order schema in openapi.yaml (additionalProperties: false, required: order_id, status, total). Validation errors: " + details).to.be.true;
       });
 
       pm.test("GET /orders/{id} responds in under 1000 ms", () => {
